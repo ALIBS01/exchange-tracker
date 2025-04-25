@@ -1,16 +1,7 @@
 import useFetchData from "../hooks/useFetchData";
 import CurrencyCard from "./CurrencyCard";
 
-const CurrencyList = () => {
-  const { data, loading, error } = useFetchData("/exchange_rates");
-
-  if (loading) return <p className="text-center">Loading fiat currencies...</p>;
-  if (error) return <p className="text-center text-red-500">Error fetching data.</p>;
-
-  const fiatCurrencies = Object.entries(data?.rates || {}).filter(
-    ([, item]) => item.type === "fiat"
-  );
-
+const CurrencyList = ({ onCurrencySelect }) => {
   return (
     <section className="p-4">
       <h2 className="text-xl font-semibold mb-4 text-gray-800">Fiat Currencies</h2>
@@ -22,11 +13,13 @@ const CurrencyList = () => {
             symbol={item.unit}
             value={item.value}
             type={item.type}
+            onClick={() => onCurrencySelect(key)}
           />
         ))}
       </div>
     </section>
   );
 };
+
 
 export default CurrencyList;
