@@ -11,11 +11,16 @@ import {
 
 const CurrencyChart = ({ coinId = "bitcoin" }) => {
   const [chartData, setChartData] = useState([]);
+  const [error, setError] = useState(null);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
   const BASE_URL = "https://api.coingecko.com/api/v3";
 
+  const isFiat = coinId.length <= 4;
+
   useEffect(() => {
+    if (isFiat) return;
+
     const fetchChartData = async () => {
       try {
         const res = await axios.get(
@@ -35,25 +40,44 @@ const CurrencyChart = ({ coinId = "bitcoin" }) => {
         }));
 
         setChartData(formattedData);
+        setError(null);
       } catch (err) {
         console.error("Chart fetch error", err);
+        setError("Failed to load chart data.");
       }
     };
 
     fetchChartData();
   }, [coinId]);
 
+  if (isFiat) {
+    return (
+      <p className="text-sm text-gray-500 px-4 py-2">
+        Charts are only available for cryptocurrencies.
+      </p>
+    );
+  }
+
   return (
     <div className="p-4 bg-white rounded-2xl shadow mt-6">
       <h3 className="text-lg font-semibold mb-4 text-gray-800">7-Day Price Chart</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData}>
-          <XAxis dataKey="date" />
-          <YAxis domain={["auto", "auto"]} />
-          <Tooltip />
-          <Line type="monotone" dataKey="price" stroke="#3b82f6" strokeWidth={2} />
-        </LineChart>
-      </ResponsiveContainer>
+      {error ? (
+        <p className="text-red-500">{error}</p>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={chartData}>
+            <XAxis dataKey="date" />
+            <YAxis domain={["auto", "auto"]} />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke="#3b82f6"
+              strokeWidth={2}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 };
