@@ -2,11 +2,13 @@ const CurrencyCard = ({ name, symbol, value, type, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer bg-white p-4 rounded-xl shadow hover:shadow-md transition"
+      className="cursor-pointer p-4 bg-white rounded-2xl shadow hover:shadow-lg transition duration-200 flex flex-col items-center"
     >
-      <h3 className="text-md font-semibold">{name}</h3>
-      <p className="text-sm text-gray-600">{symbol.toUpperCase()}</p>
-      <p className="text-lg font-bold">{value.toFixed(4)}</p>
+      <div className="text-xl font-bold text-gray-700">{symbol}</div>
+      <div className="text-sm text-gray-500 mb-1">{name}</div>
+      <div className="text-md text-gray-800 font-semibold">
+        {type === "crypto" ? `$${value}` : value.toFixed(2)}
+      </div>
     </div>
   );
 };
