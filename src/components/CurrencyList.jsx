@@ -1,7 +1,7 @@
 import useFetchData from "../hooks/useFetchData";
 import CurrencyCard from "./CurrencyCard";
 
-const CurrencyList = ({ onCurrencySelect }) => {
+const CurrencyList = () => {
   const { data, loading, error } = useFetchData("/exchange_rates");
 
   if (loading) return <p className="p-4">Loading fiat currencies...</p>;
@@ -21,7 +21,6 @@ const CurrencyList = ({ onCurrencySelect }) => {
             symbol={item.unit}
             value={item.value}
             type={item.type}
-            onClick={() => onCurrencySelect(key)}
           />
         ))}
       </div>

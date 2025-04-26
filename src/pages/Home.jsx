@@ -7,8 +7,8 @@ const Home = () => {
   const [selectedCoin, setSelectedCoin] = useState("bitcoin");
 
   return (
-    <div>
-      <CurrencyList onCurrencySelect={setSelectedCoin} />
+    <div className="p-4">
+      <CurrencyList />
       <CryptoList onCurrencySelect={setSelectedCoin} />
       <CurrencyChart coinId={selectedCoin} />
     </div>
