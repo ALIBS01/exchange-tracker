@@ -4,8 +4,20 @@ import CurrencyCard from "./CurrencyCard";
 const CryptoList = ({ onCurrencySelect }) => {
   const { data, loading, error } = useFetchData("/coins/markets", { vs_currency: "usd" });
 
-  if (loading) return <p className="p-4">Loading cryptocurrencies...</p>;
-  if (error) return <p className="p-4 text-red-500">Error loading data.</p>;
+  if (loading)
+    return (
+      <div className="p-4 text-center text-blue-500 font-semibold animate-pulse">
+        Loading...
+      </div>
+    );
+  
+  if (error)
+    return (
+      <div className="p-4 text-center text-red-500 font-semibold">
+        Error loading data.
+      </div>
+    );
+  
 
   return (
     <section className="p-4">

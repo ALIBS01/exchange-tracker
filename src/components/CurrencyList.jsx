@@ -4,8 +4,20 @@ import CurrencyCard from "./CurrencyCard";
 const CurrencyList = () => {
   const { data, loading, error } = useFetchData("/exchange_rates");
 
-  if (loading) return <p className="p-4">Loading fiat currencies...</p>;
-  if (error) return <p className="p-4 text-red-500">Error loading data.</p>;
+  if (loading)
+    return (
+      <div className="p-4 text-center text-blue-500 font-semibold animate-pulse">
+        Loading...
+      </div>
+    );
+  
+  if (error)
+    return (
+      <div className="p-4 text-center text-red-500 font-semibold">
+        Error loading data.
+      </div>
+    );
+  
 
   const rates = data?.rates || {};
   const fiatCurrencies = Object.entries(rates).filter(([_, rate]) => rate.type === "fiat");
