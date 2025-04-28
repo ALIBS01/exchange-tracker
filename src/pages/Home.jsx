@@ -8,7 +8,6 @@ const Home = () => {
 
   return (
     <div className="p-4">
-      <CurrencyList />
       <CryptoList onCurrencySelect={setSelectedCoin} />
       <CurrencyChart coinId={selectedCoin} />
     </div>
