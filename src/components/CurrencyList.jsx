@@ -1,4 +1,5 @@
 import useFetchData from "../hooks/useFetchData";
+import CurrencyCard from "./CurrencyCard";
 
 const CurrencyList = ({ onCurrencySelect }) => {
   const { data, loading, error } = useFetchData("/exchange_rates");
@@ -12,31 +13,18 @@ const CurrencyList = ({ onCurrencySelect }) => {
   return (
     <section className="p-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Fiat Currencies</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-2xl shadow">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-4 text-left">#</th>
-              <th className="p-4 text-left">Currency</th>
-              <th className="p-4 text-right">Unit</th>
-              <th className="p-4 text-right">Value (USD)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fiatCurrencies.map(([key, item], index) => (
-              <tr
-                key={key}
-                className="border-t hover:bg-gray-50 cursor-pointer"
-                onClick={() => onCurrencySelect(key)}
-              >
-                <td className="p-4">{index + 1}</td>
-                <td className="p-4">{item.name}</td>
-                <td className="p-4 text-right">{item.unit}</td>
-                <td className="p-4 text-right">{item.value.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {fiatCurrencies.map(([key, item]) => (
+          <div
+            key={key}
+            onClick={() => onCurrencySelect(key)}
+            className="bg-white rounded-lg p-4 shadow hover:shadow-lg transition cursor-pointer text-center"
+          >
+            <h3 className="text-lg font-semibold text-gray-700">{item.name}</h3>
+            <p className="text-sm text-gray-500">{item.unit}</p>
+            <p className="mt-2 text-blue-600 font-bold">{item.value.toFixed(2)}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
