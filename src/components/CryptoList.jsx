@@ -1,11 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import useFetchData from "../hooks/useFetchData";
-import {
-  LineChart,
-  Line,
-  ResponsiveContainer,
-} from "recharts";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
 
-const CryptoList = ({ onCurrencySelect }) => {
+const CryptoList = () => {
+  const navigate = useNavigate();
+
   const { data, loading, error } = useFetchData("/coins/markets", {
     vs_currency: "usd",
     order: "market_cap_desc",
@@ -42,7 +41,7 @@ const CryptoList = ({ onCurrencySelect }) => {
               <tr
                 key={coin.id}
                 className="border-t hover:bg-gray-50 cursor-pointer"
-                onClick={() => onCurrencySelect(coin.id)}
+                onClick={() => navigate(`/coin/${coin.id}`)}
               >
                 <td className="p-4">{index + 1}</td>
                 <td className="p-4 flex items-center gap-2">
@@ -53,25 +52,13 @@ const CryptoList = ({ onCurrencySelect }) => {
                   </div>
                 </td>
                 <td className="p-4 text-right">${coin.current_price.toLocaleString()}</td>
-                <td
-                  className={`p-4 text-right ${
-                    coin.price_change_percentage_1h_in_currency > 0 ? "text-green-500" : "text-red-500"
-                  }`}
-                >
+                <td className={`p-4 text-right ${coin.price_change_percentage_1h_in_currency > 0 ? "text-green-500" : "text-red-500"}`}>
                   {coin.price_change_percentage_1h_in_currency?.toFixed(2)}%
                 </td>
-                <td
-                  className={`p-4 text-right ${
-                    coin.price_change_percentage_24h_in_currency > 0 ? "text-green-500" : "text-red-500"
-                  }`}
-                >
+                <td className={`p-4 text-right ${coin.price_change_percentage_24h_in_currency > 0 ? "text-green-500" : "text-red-500"}`}>
                   {coin.price_change_percentage_24h_in_currency?.toFixed(2)}%
                 </td>
-                <td
-                  className={`p-4 text-right ${
-                    coin.price_change_percentage_7d_in_currency > 0 ? "text-green-500" : "text-red-500"
-                  }`}
-                >
+                <td className={`p-4 text-right ${coin.price_change_percentage_7d_in_currency > 0 ? "text-green-500" : "text-red-500"}`}>
                   {coin.price_change_percentage_7d_in_currency?.toFixed(2)}%
                 </td>
                 <td className="p-4 text-right">${coin.market_cap.toLocaleString()}</td>

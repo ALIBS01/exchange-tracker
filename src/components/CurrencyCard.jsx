@@ -1,7 +1,9 @@
-const CurrencyCard = ({ name, symbol, value, type, onClick }) => {
+import { Link } from "react-router-dom";
+
+const CurrencyCard = ({ id, name, symbol, value, type }) => {
   return (
-    <div
-      onClick={onClick}
+    <Link
+      to={type === "crypto" ? `/coin/${id}` : "#"}
       className="cursor-pointer p-4 bg-white rounded-2xl shadow hover:shadow-lg transition duration-200 flex flex-col items-center"
     >
       <div className="text-xl font-bold text-gray-700">{symbol}</div>
@@ -9,8 +11,9 @@ const CurrencyCard = ({ name, symbol, value, type, onClick }) => {
       <div className="text-md text-gray-800 font-semibold">
         {type === "crypto" ? `$${value}` : value.toFixed(2)}
       </div>
-    </div>
+    </Link>
   );
 };
 
 export default CurrencyCard;
+
