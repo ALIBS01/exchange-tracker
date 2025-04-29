@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Settings from "./pages/Settings";
+import CoinDetail from "./pages/CoinDetail";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/coin/:id" element={<CoinDetail />} />
         </Routes>
       </div>
     </Router>
