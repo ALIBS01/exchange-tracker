@@ -1,69 +1,117 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const CoinDetail = () => {
   const { id } = useParams();
   const [coin, setCoin] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const BASE_URL = "https://api.coingecko.com/api/v3";
 
   useEffect(() => {
-    const fetchCoin = async () => {
+    const fetchCoinData = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/coins/${id}`, {
+        const res = await axios.get(`https://api.coingecko.com/api/v3/coins/${id}`, {
           params: {
-            x_cg_demo_api_key: API_KEY,
             localization: false,
             tickers: false,
             market_data: true,
             community_data: false,
             developer_data: false,
             sparkline: false,
+            x_cg_demo_api_key: API_KEY,
           },
         });
         setCoin(res.data);
       } catch (err) {
-        setError("Failed to fetch coin data.");
+        console.error("Error fetching coin data:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCoin();
+    fetchCoinData();
   }, [id]);
 
-  if (loading) return <div className="p-4">Loading...</div>;
-  if (error) return <div className="p-4 text-red-500">{error}</div>;
+  if (loading) return <p className="p-4">Loading coin details...</p>;
+  if (!coin) return <p className="p-4 text-red-500">Coin not found.</p>;
+
+  const {
+    image,
+    name,
+    symbol,
+    market_cap_rank,
+    market_data,
+    description,
+    links,
+  } = coin;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-5xl mx-auto">
+        
       <div className="flex items-center gap-4 mb-6">
-        <img src={coin.image.large} alt={coin.name} className="w-12 h-12" />
-        <h1 className="text-2xl font-bold text-gray-800">{coin.name} ({coin.symbol.toUpperCase()})</h1>
-        <span className="text-sm text-gray-500">Rank #{coin.market_cap_rank}</span>
+        <img src={image.large} alt={name} className="w-12 h-12" />
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">
+            {name} ({symbol.toUpperCase()})
+          </h1>
+          <p className="text-gray-500">Rank #{market_cap_rank}</p>
+        </div>
       </div>
-      <p className="mb-4 text-gray-700" dangerouslySetInnerHTML={{ __html: coin.description.en?.split(". ")[0] + "." }} />
-      <div className="grid grid-cols-2 gap-4 bg-white rounded-xl shadow p-4">
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white rounded-2xl shadow p-6 mb-8">
         <div>
-          <h2 className="text-gray-600 text-sm">Current Price</h2>
-          <p className="text-xl font-semibold text-gray-900">${coin.market_data.current_price.usd}</p>
+          <p className="text-gray-500 text-sm">Current Price</p>
+          <p className="text-2xl font-bold text-gray-800">${market_data.current_price.usd.toLocaleString()}</p>
         </div>
         <div>
-          <h2 className="text-gray-600 text-sm">Market Cap</h2>
-          <p className="text-lg text-gray-900">${coin.market_data.market_cap.usd.toLocaleString()}</p>
+          <p className="text-gray-500 text-sm">24h Change</p>
+          <p className={`font-semibold ${market_data.price_change_percentage_24h > 0 ? "text-green-500" : "text-red-500"}`}>
+            {market_data.price_change_percentage_24h.toFixed(2)}%
+          </p>
         </div>
         <div>
-          <h2 className="text-gray-600 text-sm">24h Change</h2>
-          <p className="text-lg text-gray-900">{coin.market_data.price_change_percentage_24h.toFixed(2)}%</p>
+          <p className="text-gray-500 text-sm">Market Cap</p>
+          <p className="font-semibold text-gray-800">${market_data.market_cap.usd.toLocaleString()}</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white rounded-2xl shadow p-6 mb-8">
+        <div>
+          <p className="text-gray-500 text-sm">Circulating Supply</p>
+          <p className="font-medium text-gray-800">
+            {market_data.circulating_supply.toLocaleString()} {symbol.toUpperCase()}
+          </p>
         </div>
         <div>
-          <h2 className="text-gray-600 text-sm">Circulating Supply</h2>
-          <p className="text-lg text-gray-900">{coin.market_data.circulating_supply.toLocaleString()}</p>
+          <p className="text-gray-500 text-sm">Total Supply</p>
+          <p className="text-gray-800">
+            {market_data.total_supply ? market_data.total_supply.toLocaleString() : "N/A"}
+          </p>
         </div>
+        <div>
+          <p className="text-gray-500 text-sm">All-Time High</p>
+          <p className="text-gray-800">${market_data.ath.usd.toLocaleString()}</p>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow p-6">
+        <h2 className="text-xl font-semibold mb-2 text-gray-800">About {name}</h2>
+        <div
+          className="prose max-w-none text-sm text-gray-700"
+          dangerouslySetInnerHTML={{ __html: description.en || "No description available." }}
+        />
+        {links.homepage[0] && (
+          <a
+            href={links.homepage[0]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block text-blue-600 hover:underline text-sm"
+          >
+            Visit Official Website →
+          </a>
+        )}
       </div>
     </div>
   );
