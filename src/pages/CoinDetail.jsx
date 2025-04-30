@@ -14,18 +14,20 @@ const CoinDetail = () => {
     sparkline: false,
   });
 
-  if (loading) return <p className="p-4">Loading coin details...</p>;
-  if (error || !data) return <p className="p-4 text-red-500">Error loading coin data.</p>;
+  if (loading) return <p className="p-6">Loading coin details...</p>;
+  if (error || !data) return <p className="p-6 text-red-500">Error loading coin data.</p>;
 
   const {
     name,
     symbol,
     image,
     market_data: market,
+    description,
+    genesis_date,
   } = data;
 
   return (
-    <div className="p-6 max-w-5xl mx-auto bg-white rounded-2xl shadow">
+    <div className="px-6 py-10 max-w-5xl mx-auto bg-white rounded-2xl shadow">
       <div className="flex items-center gap-4 mb-6">
         <img src={image.large} alt={name} className="w-12 h-12" />
         <div>
@@ -52,6 +54,28 @@ const CoinDetail = () => {
       </div>
 
       <CoinChart coinId={id} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 text-gray-700 text-sm">
+        <div>
+          <p><strong>Market Cap:</strong> ${market.market_cap.usd.toLocaleString()}</p>
+          <p><strong>24h Volume:</strong> ${market.total_volume.usd.toLocaleString()}</p>
+          <p><strong>Circulating Supply:</strong> {market.circulating_supply?.toLocaleString()} {symbol.toUpperCase()}</p>
+          {market.total_supply && (
+            <p><strong>Total Supply:</strong> {market.total_supply.toLocaleString()} {symbol.toUpperCase()}</p>
+          )}
+          <p><strong>All Time High:</strong> ${market.ath.usd.toLocaleString()} on {market.ath_date.usd.slice(0, 10)}</p>
+          {genesis_date && <p><strong>Genesis Date:</strong> {genesis_date}</p>}
+        </div>
+        <div>
+          <p className="mb-2 font-semibold">About {name}:</p>
+          <div
+            className="text-gray-600 text-sm leading-relaxed line-clamp-6"
+            dangerouslySetInnerHTML={{
+              __html: description.en || "No description available.",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
