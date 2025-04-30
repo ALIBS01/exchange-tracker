@@ -27,7 +27,7 @@ const CoinDetail = () => {
   } = data;
 
   return (
-    <div className="px-6 py-10 max-w-5xl mx-auto bg-white rounded-2xl shadow">
+    <div className="mt-6 px-6 py-10 max-w-5xl mx-auto bg-white rounded-2xl shadow">
       <div className="flex items-center gap-4 mb-6">
         <img src={image.large} alt={name} className="w-12 h-12" />
         <div>
