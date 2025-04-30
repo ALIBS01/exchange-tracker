@@ -24,10 +24,14 @@ const CoinDetail = () => {
     market_data: market,
     description,
     genesis_date,
+    market_cap_rank,
+    hashing_algorithm,
+    links,
+    public_interest_score,
   } = data;
 
   return (
-    <div className="mt-6 px-6 py-10 max-w-5xl mx-auto bg-white rounded-2xl shadow">
+    <div className="mt-10 px-6 py-10 max-w-5xl mx-auto bg-white rounded-2xl shadow">
       <div className="flex items-center gap-4 mb-6">
         <img src={image.large} alt={name} className="w-12 h-12" />
         <div>
@@ -55,7 +59,7 @@ const CoinDetail = () => {
 
       <CoinChart coinId={id} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 text-gray-700 text-sm">
+      <div className="grid md:grid-cols-2 gap-6 mt-10 text-sm text-gray-700">
         <div>
           <p><strong>Market Cap:</strong> ${market.market_cap.usd.toLocaleString()}</p>
           <p><strong>24h Volume:</strong> ${market.total_volume.usd.toLocaleString()}</p>
@@ -65,11 +69,22 @@ const CoinDetail = () => {
           )}
           <p><strong>All Time High:</strong> ${market.ath.usd.toLocaleString()} on {market.ath_date.usd.slice(0, 10)}</p>
           {genesis_date && <p><strong>Genesis Date:</strong> {genesis_date}</p>}
+          <p><strong>Market Cap Rank:</strong> {market_cap_rank || "N/A"}</p>
+          <p><strong>Hashing Algorithm:</strong> {hashing_algorithm || "N/A"}</p>
+          <p><strong>Public Interest Score:</strong> {public_interest_score || "N/A"}</p>
         </div>
         <div>
-          <p className="mb-2 font-semibold">About {name}:</p>
+          <p>
+            <strong>Homepage:</strong>{" "}
+            {links.homepage[0] ? (
+              <a href={links.homepage[0]} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+                {links.homepage[0]}
+              </a>
+            ) : "N/A"}
+          </p>
+          <p className="mt-4 mb-2 font-semibold">About {name}:</p>
           <div
-            className="text-gray-600 text-sm leading-relaxed line-clamp-6"
+            className="text-gray-600 leading-relaxed line-clamp-6"
             dangerouslySetInnerHTML={{
               __html: description.en || "No description available.",
             }}
