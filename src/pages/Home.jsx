@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CryptoList from "../components/CryptoList";
-import CurrencyChart from "../components/CurrencyChart";
 import TrendingList from "../components/TrendingList";
 
 const Home = () => {
@@ -10,7 +9,6 @@ const Home = () => {
     <div className="p-4">
       <TrendingList onCoinSelect={setSelectedCoin} />
       <CryptoList onCurrencySelect={setSelectedCoin} />
-      <CurrencyChart coinId={selectedCoin} />
     </div>
   );
 };
