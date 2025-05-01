@@ -40,7 +40,7 @@ const CryptoList = () => {
             {data.map((coin, index) => (
               <tr
                 key={coin.id}
-                className="border-t hover:bg-gray-50 cursor-pointer"
+                className="border-t border-gray-100 hover:bg-gray-50 cursor-pointer"
                 onClick={() => navigate(`/coin/${coin.id}`)}
               >
                 <td className="p-4">{index + 1}</td>
