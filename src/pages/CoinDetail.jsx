@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import useFetchData from "../hooks/useFetchData";
 import CoinChart from "../components/CoinChart";
+import CoinConverter from "../components/CoinConverter";
 
 const CoinDetail = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const CoinDetail = () => {
   } = data;
 
   return (
-    <div className="mt-10 px-6 py-10 max-w-5xl mx-auto bg-white rounded-2xl shadow">
+    <div className="mt-10 px-6 py-10 max-w-6xl mx-auto bg-white rounded-2xl shadow">
       <div className="flex items-center gap-4 mb-6">
         <img src={image.large} alt={name} className="w-12 h-12" />
         <div>
@@ -59,8 +60,8 @@ const CoinDetail = () => {
 
       <CoinChart coinId={id} />
 
-      <div className="grid md:grid-cols-2 gap-6 mt-10 text-sm text-gray-700">
-        <div>
+      <div className="grid md:grid-cols-3 gap-6 mt-10 text-sm text-gray-700">
+        <div className="md:col-span-2">
           <p><strong>Market Cap:</strong> ${market.market_cap.usd.toLocaleString()}</p>
           <p><strong>24h Volume:</strong> ${market.total_volume.usd.toLocaleString()}</p>
           <p><strong>Circulating Supply:</strong> {market.circulating_supply?.toLocaleString()} {symbol.toUpperCase()}</p>
@@ -72,9 +73,18 @@ const CoinDetail = () => {
           <p><strong>Market Cap Rank:</strong> {market_cap_rank || "N/A"}</p>
           <p><strong>Hashing Algorithm:</strong> {hashing_algorithm || "N/A"}</p>
           <p><strong>Public Interest Score:</strong> {public_interest_score || "N/A"}</p>
-        </div>
-        <div>
-          <p>
+
+          <div className="mt-6">
+            <p className="font-semibold mb-2">About {name}:</p>
+            <div
+              className="text-gray-600 leading-relaxed line-clamp-6"
+              dangerouslySetInnerHTML={{
+                __html: description.en || "No description available.",
+              }}
+            />
+          </div>
+
+          <p className="mt-4">
             <strong>Homepage:</strong>{" "}
             {links.homepage[0] ? (
               <a href={links.homepage[0]} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
@@ -82,13 +92,10 @@ const CoinDetail = () => {
               </a>
             ) : "N/A"}
           </p>
-          <p className="mt-4 mb-2 font-semibold">About {name}:</p>
-          <div
-            className="text-gray-600 leading-relaxed line-clamp-6"
-            dangerouslySetInnerHTML={{
-              __html: description.en || "No description available.",
-            }}
-          />
+        </div>
+
+        <div>
+          <CoinConverter coinSymbol={symbol} coinPrice={market.current_price.usd} />
         </div>
       </div>
     </div>
