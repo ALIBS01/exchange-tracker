@@ -89,61 +89,38 @@ const CryptoList = () => {
         </table>
       </div>
 
-      <div className="flex justify-center mt-6">
-        <ul className="flex items-center space-x-2 text-black">
-          <li>
-            <button
-              className="px-2 py-1 rounded hover:bg-gray-700"
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-            >
-              &lt;
-            </button>
-          </li>
-          {[...Array(totalPages)].map((_, idx) => {
-            const pageNum = idx + 1;
-            if (
-              pageNum === 1 ||
-              pageNum === totalPages ||
-              Math.abs(pageNum - page) <= 1
-            ) {
-              return (
-                <li key={pageNum}>
+      <div className="flex justify-center mt-8">
+        <ul className="flex gap-2 text-black font-semibold">
+          {Array.from({ length: totalPages }, (_, i) => i + 1)
+            .filter(p =>
+              p <= 5 || p === totalPages || Math.abs(p - page) <= 1
+            )
+            .reduce((acc, p, i, arr) => {
+              if (i > 0 && p - arr[i - 1] > 1) {
+                acc.push("...");
+              }
+              acc.push(p);
+              return acc;
+            }, [])
+            .map((p, idx) =>
+              p === "..." ? (
+                <li key={idx} className="px-3 py-1 text-gray-400 select-none">...</li>
+              ) : (
+                <li key={p}>
                   <button
-                    onClick={() => handlePageChange(pageNum)}
-                    className={`px-3 py-1 rounded ${
-                      page === pageNum
-                        ? "bg-gray-700"
-                        : "hover:bg-gray-700"
+                    onClick={() => handlePageChange(p)}
+                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
+                      p === page ? "bg-gray-300" : ""
                     }`}
                   >
-                    {pageNum}
+                    {p}
                   </button>
                 </li>
-              );
-            } else if (
-              (pageNum === page - 2 && page > 4) ||
-              (pageNum === page + 2 && page < totalPages - 3)
-            ) {
-              return (
-                <li key={pageNum}>
-                  <span className="px-2 py-1">...</span>
-                </li>
-              );
-            }
-            return null;
-          })}
-          <li>
-            <button
-              className="px-2 py-1 rounded hover:bg-gray-700"
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages}
-            >
-              &gt;
-            </button>
-          </li>
+              )
+            )}
         </ul>
       </div>
+
     </section>
   );
 };
