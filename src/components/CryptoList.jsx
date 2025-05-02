@@ -90,36 +90,59 @@ const CryptoList = () => {
       </div>
 
       <div className="flex justify-center mt-8">
-        <ul className="flex gap-2 text-black font-semibold">
-          {Array.from({ length: totalPages }, (_, i) => i + 1)
-            .filter(p =>
-              p <= 5 || p === totalPages || Math.abs(p - page) <= 1
-            )
-            .reduce((acc, p, i, arr) => {
-              if (i > 0 && p - arr[i - 1] > 1) {
-                acc.push("...");
-              }
-              acc.push(p);
-              return acc;
-            }, [])
-            .map((p, idx) =>
-              p === "..." ? (
-                <li key={idx} className="px-3 py-1 text-gray-400 select-none">...</li>
-              ) : (
-                <li key={p}>
-                  <button
-                    onClick={() => handlePageChange(p)}
-                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
-                      p === page ? "bg-gray-300" : ""
-                    }`}
-                  >
-                    {p}
-                  </button>
-                </li>
-              )
-            )}
-        </ul>
-      </div>
+  <ul className="flex gap-2 text-black font-semibold items-center">
+    <li>
+      <button
+        onClick={() => handlePageChange(page - 1)}
+        disabled={page === 1}
+        className={`px-3 py-1 rounded hover:bg-gray-200 ${
+          page === 1 ? "text-gray-400 cursor-not-allowed" : ""
+        }`}
+      >
+        &lt;
+      </button>
+    </li>
+
+    {Array.from({ length: totalPages }, (_, i) => i + 1)
+      .filter(p => p <= 5 || p === totalPages || Math.abs(p - page) <= 1)
+      .reduce((acc, p, i, arr) => {
+        if (i > 0 && p - arr[i - 1] > 1) {
+          acc.push("...");
+        }
+        acc.push(p);
+        return acc;
+      }, [])
+      .map((p, idx) =>
+        p === "..." ? (
+          <li key={idx} className="px-3 py-1 text-gray-400 select-none">...</li>
+        ) : (
+          <li key={p}>
+            <button
+              onClick={() => handlePageChange(p)}
+              className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
+                p === page ? "bg-gray-300" : ""
+              }`}
+            >
+              {p}
+            </button>
+          </li>
+        )
+      )}
+
+    <li>
+      <button
+        onClick={() => handlePageChange(page + 1)}
+        disabled={page === totalPages}
+        className={`px-3 py-1 rounded hover:bg-gray-200 ${
+          page === totalPages ? "text-gray-400 cursor-not-allowed" : ""
+        }`}
+      >
+        &gt;
+      </button>
+    </li>
+  </ul>
+</div>
+
 
     </section>
   );
