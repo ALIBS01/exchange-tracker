@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
+import Search from "../components/Search";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white shadow-md p-4 flex justify-between items-center">
+    <nav className="bg-white shadow-md p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
       <h1 className="text-xl font-bold text-gray-800">Currency & Crypto Tracker</h1>
+
+      <Search />
+
       <ul className="flex space-x-4 text-sm sm:text-base">
         <li>
           <Link to="/" className="text-gray-700 hover:text-blue-500">
@@ -26,3 +30,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
