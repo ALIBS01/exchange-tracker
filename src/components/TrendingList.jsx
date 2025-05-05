@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const TrendingList = ({ onCoinSelect }) => {
+const TrendingList = () => {
   const [trendingCoins, setTrendingCoins] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
+  const navigate = useNavigate();
   const API_KEY = import.meta.env.VITE_API_KEY;
   const BASE_URL = "https://api.coingecko.com/api/v3";
 
@@ -76,7 +78,7 @@ const TrendingList = ({ onCoinSelect }) => {
 
   const handleCardClick = (itemId) => {
     if (!isDragging) {
-      onCoinSelect(itemId);
+      navigate(`/coin/${itemId}`);
     }
   };
 
