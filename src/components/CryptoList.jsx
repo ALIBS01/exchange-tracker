@@ -2,16 +2,22 @@ import { useNavigate } from "react-router-dom";
 import useFetchData from "../hooks/useFetchData";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { useState } from "react";
+import FilterTabs from "./FilterTabs";
 
 const CryptoList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [selectedFilter, setSelectedFilter] = useState("trending");
+
   const perPage = 50;
   const totalPages = 20;
 
   const { data, loading, error } = useFetchData("/coins/markets", {
     vs_currency: "usd",
-    order: "market_cap_desc",
+    order:
+      selectedFilter === "gainers"
+        ? "volume_desc"
+        : "market_cap_desc",
     per_page: perPage,
     page: page,
     sparkline: true,
@@ -29,7 +35,9 @@ const CryptoList = () => {
 
   return (
     <section className="p-4">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Top Cryptocurrencies</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-2">Top Cryptocurrencies</h2>
+      <FilterTabs selected={selectedFilter} onSelect={setSelectedFilter} />
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white rounded-2xl shadow">
           <thead className="bg-gray-100">
@@ -90,60 +98,52 @@ const CryptoList = () => {
       </div>
 
       <div className="flex justify-center mt-8">
-  <ul className="flex gap-2 text-black font-semibold items-center">
-    <li>
-      <button
-        onClick={() => handlePageChange(page - 1)}
-        disabled={page === 1}
-        className={`px-3 py-1 rounded hover:bg-gray-200 ${
-          page === 1 ? "text-gray-400 cursor-not-allowed" : ""
-        }`}
-      >
-        &lt;
-      </button>
-    </li>
-
-    {Array.from({ length: totalPages }, (_, i) => i + 1)
-      .filter(p => p <= 5 || p === totalPages || Math.abs(p - page) <= 1)
-      .reduce((acc, p, i, arr) => {
-        if (i > 0 && p - arr[i - 1] > 1) {
-          acc.push("...");
-        }
-        acc.push(p);
-        return acc;
-      }, [])
-      .map((p, idx) =>
-        p === "..." ? (
-          <li key={idx} className="px-3 py-1 text-gray-400 select-none">...</li>
-        ) : (
-          <li key={p}>
+        <ul className="flex gap-2 text-black font-semibold items-center">
+          <li>
             <button
-              onClick={() => handlePageChange(p)}
-              className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
-                p === page ? "bg-gray-300" : ""
-              }`}
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === 1 ? "text-gray-400 cursor-not-allowed" : ""}`}
             >
-              {p}
+              &lt;
             </button>
           </li>
-        )
-      )}
 
-    <li>
-      <button
-        onClick={() => handlePageChange(page + 1)}
-        disabled={page === totalPages}
-        className={`px-3 py-1 rounded hover:bg-gray-200 ${
-          page === totalPages ? "text-gray-400 cursor-not-allowed" : ""
-        }`}
-      >
-        &gt;
-      </button>
-    </li>
-  </ul>
-</div>
+          {Array.from({ length: totalPages }, (_, i) => i + 1)
+            .filter(p => p <= 5 || p === totalPages || Math.abs(p - page) <= 1)
+            .reduce((acc, p, i, arr) => {
+              if (i > 0 && p - arr[i - 1] > 1) {
+                acc.push("...");
+              }
+              acc.push(p);
+              return acc;
+            }, [])
+            .map((p, idx) =>
+              p === "..." ? (
+                <li key={idx} className="px-3 py-1 text-gray-400 select-none">...</li>
+              ) : (
+                <li key={p}>
+                  <button
+                    onClick={() => handlePageChange(p)}
+                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${p === page ? "bg-gray-300" : ""}`}
+                  >
+                    {p}
+                  </button>
+                </li>
+              )
+            )}
 
-
+          <li>
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages}
+              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === totalPages ? "text-gray-400 cursor-not-allowed" : ""}`}
+            >
+              &gt;
+            </button>
+          </li>
+        </ul>
+      </div>
     </section>
   );
 };

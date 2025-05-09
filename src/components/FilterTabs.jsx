@@ -1,23 +1,29 @@
-const filters = ["Trending", "Top Gainers", "Most Visited"];
-
-const FilterTabs = ({ selected, onSelect }) => {
-  return (
-    <div className="flex gap-4 mb-6 px-4">
-      {filters.map((filter) => (
-        <button
-          key={filter}
-          onClick={() => onSelect(filter)}
-          className={`px-3 py-1 rounded-full border transition-all duration-200 shadow-sm hover:shadow-md ${
-            selected === filter
-              ? "bg-blue-600 text-white border-blue-600"
-              : "bg-white text-gray-600 border-gray-300"
-          }`}
-        >
-          {filter}
-        </button>
-      ))}
-    </div>
-  );
-};
-
-export default FilterTabs;
+const tabs = [
+    { label: "Trending", value: "trending" },
+    { label: "New", value: "new" },
+    { label: "Gainers", value: "gainers" },
+    { label: "Most Visited", value: "most_visited" },
+  ];
+  
+  const FilterTabs = ({ selected, onSelect }) => {
+    return (
+      <div className="flex space-x-3 border-b border-gray-200 mb-6">
+        {tabs.map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() => onSelect?.(tab.value)}
+            className={`py-2 px-4 border-b-2 transition-colors duration-200 ${
+              selected === tab.value
+                ? "border-blue-500 text-blue-600 font-semibold"
+                : "border-transparent text-gray-600 hover:text-blue-500"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+    );
+  };
+  
+  export default FilterTabs;
+  
