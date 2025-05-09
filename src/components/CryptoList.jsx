@@ -7,22 +7,53 @@ import FilterTabs from "./FilterTabs";
 const CryptoList = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [selectedFilter, setSelectedFilter] = useState("trending");
-
+  const [selectedFilter, setSelectedFilter] = useState("all");
   const perPage = 50;
   const totalPages = 20;
 
-  const { data, loading, error } = useFetchData("/coins/markets", {
-    vs_currency: "usd",
-    order:
-      selectedFilter === "gainers"
-        ? "volume_desc"
-        : "market_cap_desc",
-    per_page: perPage,
-    page: page,
-    sparkline: true,
-    price_change_percentage: "1h,24h,7d",
-  });
+  const getQueryParams = () => {
+    switch (selectedFilter) {
+      case "gainers":
+        return {
+          vs_currency: "usd",
+          order: "percent_change_24h_desc",
+          per_page: perPage,
+          page,
+          sparkline: true,
+          price_change_percentage: "1h,24h,7d",
+        };
+      case "trending":
+      case "most_visited":
+        return {
+          vs_currency: "usd",
+          order: "volume_desc",
+          per_page: perPage,
+          page,
+          sparkline: true,
+          price_change_percentage: "1h,24h,7d",
+        };
+      case "new":
+        return {
+          vs_currency: "usd",
+          order: "id_asc",
+          per_page: perPage,
+          page,
+          sparkline: true,
+          price_change_percentage: "1h,24h,7d",
+        };
+      default:
+        return {
+          vs_currency: "usd",
+          order: "market_cap_desc",
+          per_page: perPage,
+          page,
+          sparkline: true,
+          price_change_percentage: "1h,24h,7d",
+        };
+    }
+  };
+
+  const { data, loading, error } = useFetchData("/coins/markets", getQueryParams());
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -35,7 +66,8 @@ const CryptoList = () => {
 
   return (
     <section className="p-4">
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">Top Cryptocurrencies</h2>
+      <h2 className="text-2xl font-bold mb-2 text-gray-800">Top Cryptocurrencies</h2>
+
       <FilterTabs selected={selectedFilter} onSelect={setSelectedFilter} />
 
       <div className="overflow-x-auto">
@@ -103,7 +135,9 @@ const CryptoList = () => {
             <button
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
-              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === 1 ? "text-gray-400 cursor-not-allowed" : ""}`}
+              className={`px-3 py-1 rounded hover:bg-gray-200 ${
+                page === 1 ? "text-gray-400 cursor-not-allowed" : ""
+              }`}
             >
               &lt;
             </button>
@@ -125,7 +159,9 @@ const CryptoList = () => {
                 <li key={p}>
                   <button
                     onClick={() => handlePageChange(p)}
-                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${p === page ? "bg-gray-300" : ""}`}
+                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
+                      p === page ? "bg-gray-300" : ""
+                    }`}
                   >
                     {p}
                   </button>
@@ -137,7 +173,9 @@ const CryptoList = () => {
             <button
               onClick={() => handlePageChange(page + 1)}
               disabled={page === totalPages}
-              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === totalPages ? "text-gray-400 cursor-not-allowed" : ""}`}
+              className={`px-3 py-1 rounded hover:bg-gray-200 ${
+                page === totalPages ? "text-gray-400 cursor-not-allowed" : ""
+              }`}
             >
               &gt;
             </button>

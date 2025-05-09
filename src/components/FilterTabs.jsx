@@ -1,4 +1,5 @@
 const tabs = [
+    { label: "All", value: "all" },
     { label: "Trending", value: "trending" },
     { label: "New", value: "new" },
     { label: "Gainers", value: "gainers" },
