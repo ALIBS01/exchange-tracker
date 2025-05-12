@@ -1,22 +1,35 @@
-const filters = [
+import { useEffect, useState } from "react";
+
+const tabs = [
   { label: "All", value: "all" },
   { label: "New", value: "new" },
 ];
 
-const FilterTabs = ({ activeFilter, onSelect }) => {
+const FilterTabs = ({ selected = "all", onSelect }) => {
+  const [activeTab, setActiveTab] = useState(selected);
+
+  useEffect(() => {
+    setActiveTab(selected);
+  }, [selected]);
+
+  const handleClick = (tab) => {
+    setActiveTab(tab);
+    onSelect(tab);
+  };
+
   return (
-    <div className="flex gap-2 mb-4">
-      {filters.map((filter) => (
+    <div className="flex space-x-4 mb-4">
+      {tabs.map((tab) => (
         <button
-          key={filter.value}
-          onClick={() => onSelect(filter.value)}
-          className={`px-4 py-2 rounded-full border text-sm font-medium transition ${
-            activeFilter === filter.value
-              ? "bg-blue-600 text-white"
-              : "bg-white border-gray-300 text-gray-600 hover:bg-gray-100"
+          key={tab.value}
+          onClick={() => handleClick(tab.value)}
+          className={`px-4 py-2 rounded-full font-semibold transition ${
+            activeTab === tab.value
+              ? "bg-blue-600 text-white shadow"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
-          {filter.label}
+          {tab.label}
         </button>
       ))}
     </div>
