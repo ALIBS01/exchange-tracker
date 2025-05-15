@@ -7,7 +7,7 @@ const useFetchData = (endpoint, params = {}, options = {}) => {
   const [error, setError] = useState(null);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const BASE_URL = "https://api.coingecko.com/api/v3";
+  const BASE_URL = "/api";
 
   useEffect(() => {
     const fetchData = async () => {
