@@ -23,7 +23,7 @@ const FilterTabs = ({ selected = "all", onSelect }) => {
         <button
           key={tab.value}
           onClick={() => handleClick(tab.value)}
-          className={`px-4 py-2 rounded-full font-semibold transition ${
+          className={`px-4 py-2 rounded-full font-semibold transition cursor-pointer ${
             activeTab === tab.value
               ? "bg-blue-600 text-white shadow"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
