@@ -6,6 +6,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
@@ -61,10 +62,11 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
         {timeRanges.map((range) => (
           <button
             key={range.value}
-            className={`px-3 py-1 rounded-md text-sm font-medium transition border ${{
-              true: "bg-blue-500 text-white border-blue-500",
-              false: "bg-white text-gray-700 border-gray-300",
-            }[days === range.value]}`}
+            className={`px-3 py-1 rounded-md text-sm font-medium transition border ${
+              days === range.value
+                ? "bg-blue-500 text-white border-blue-500"
+                : "bg-white text-gray-700 border-gray-300"
+            }`}
             onClick={() => setDays(range.value)}
           >
             {range.label}
@@ -77,9 +79,16 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
             <XAxis dataKey="date" hide={chartData.length > 30} />
-            <YAxis domain={["auto", "auto"]} />
+            <YAxis domain={["auto", "auto"]} orientation="right" />
             <Tooltip />
-            <Line type="monotone" dataKey="price" stroke="#3b82f6" strokeWidth={2} />
+            <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke="#3b82f6"
+              strokeWidth={2}
+              dot={false}
+            />
           </LineChart>
         </ResponsiveContainer>
       )}
