@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import useFetchData from "../hooks/useFetchData";
 import CoinChart from "../components/CoinChart";
 import CoinConverter from "../components/CoinConverter";
+import CoinStats from "../components/CoinStats";
 
 const CoinDetail = () => {
   const { id } = useParams();
@@ -32,17 +33,17 @@ const CoinDetail = () => {
   } = data;
 
   return (
-    <div className="mt-10 px-6 py-10 max-w-6xl mx-auto bg-white rounded-2xl shadow">
-      <div className="flex items-center gap-4 mb-6">
+    <div className="mt-10 px-6 py-10 max-w-7xl mx-auto bg-white rounded-2xl shadow space-y-10">
+      <div className="flex items-center gap-4">
         <img src={image.large} alt={name} className="w-12 h-12" />
         <div>
-          <h1 className="text-2xl font-bold">{name}</h1>
+          <h1 className="text-3xl font-bold">{name}</h1>
           <p className="uppercase text-gray-500">{symbol}</p>
         </div>
       </div>
 
-      <div className="mb-6">
-        <p className="text-3xl font-bold text-gray-800">
+      <div>
+        <p className="text-4xl font-bold text-gray-800">
           ${market.current_price.usd.toLocaleString()}
         </p>
         <div className="flex gap-4 mt-2 text-sm">
@@ -60,31 +61,38 @@ const CoinDetail = () => {
 
       <CoinChart coinId={id} />
 
-      <div className="grid md:grid-cols-3 gap-6 mt-10 text-sm text-gray-700">
+      <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <p><strong>Market Cap:</strong> ${market.market_cap.usd.toLocaleString()}</p>
-          <p><strong>24h Volume:</strong> ${market.total_volume.usd.toLocaleString()}</p>
-          <p><strong>Circulating Supply:</strong> {market.circulating_supply?.toLocaleString()} {symbol.toUpperCase()}</p>
-          {market.total_supply && (
-            <p><strong>Total Supply:</strong> {market.total_supply.toLocaleString()} {symbol.toUpperCase()}</p>
-          )}
-          <p><strong>All Time High:</strong> ${market.ath.usd.toLocaleString()} on {market.ath_date.usd.slice(0, 10)}</p>
-          {genesis_date && <p><strong>Genesis Date:</strong> {genesis_date}</p>}
-          <p><strong>Market Cap Rank:</strong> {market_cap_rank || "N/A"}</p>
-          <p><strong>Hashing Algorithm:</strong> {hashing_algorithm || "N/A"}</p>
-          <p><strong>Public Interest Score:</strong> {public_interest_score || "N/A"}</p>
+          <CoinStats
+            market={market}
+            symbol={symbol}
+            genesis_date={genesis_date}
+            market_cap_rank={market_cap_rank}
+            hashing_algorithm={hashing_algorithm}
+            public_interest_score={public_interest_score}
+          />
 
-          <div className="mt-6">
-            <p className="font-semibold mb-2">About {name}:</p>
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold mb-3 text-gray-800">About {name}</h2>
             <div
-              className="text-gray-600 leading-relaxed line-clamp-6"
+              className="text-gray-600 leading-relaxed prose max-w-none"
               dangerouslySetInnerHTML={{
                 __html: description.en || "No description available.",
               }}
             />
           </div>
 
-          <p className="mt-4">
+          <div className="mt-10">
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">FAQ</h2>
+            <ul className="list-disc ml-5 text-gray-700 space-y-2">
+              <li>What is {name}?</li>
+              <li>How is {name} different from other cryptocurrencies?</li>
+              <li>Where can I buy {name}?</li>
+              <li>What is the total supply of {name}?</li>
+            </ul>
+          </div>
+
+          <p className="mt-6">
             <strong>Homepage:</strong>{" "}
             {links.homepage[0] ? (
               <a href={links.homepage[0]} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
