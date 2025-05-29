@@ -8,7 +8,7 @@ import CoinDetail from "./pages/CoinDetail";
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-white text-gray-900">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
