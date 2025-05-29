@@ -3,6 +3,7 @@ import useFetchData from "../hooks/useFetchData";
 import CoinChart from "../components/CoinChart";
 import CoinConverter from "../components/CoinConverter";
 import CoinStats from "../components/CoinStats";
+import CoinFAQ from "../components/CoinFAQ";
 
 const CoinDetail = () => {
   const { id } = useParams();
@@ -33,17 +34,18 @@ const CoinDetail = () => {
   } = data;
 
   return (
-    <div className="mt-10 px-6 py-10 max-w-7xl mx-auto rounded-2xl space-y-10">
-      <div className="flex items-center gap-4">
+    <div className="mt-10 px-6 py-10 max-w-7xl mx-auto rounded-2xl">
+
+      <div className="flex items-center gap-4 mb-6">
         <img src={image.large} alt={name} className="w-12 h-12" />
         <div>
-          <h1 className="text-3xl font-bold">{name}</h1>
+          <h1 className="text-2xl font-bold">{name}</h1>
           <p className="uppercase text-gray-500">{symbol}</p>
         </div>
       </div>
 
-      <div>
-        <p className="text-4xl font-bold text-gray-800">
+      <div className="mb-6">
+        <p className="text-3xl font-bold text-gray-800">
           ${market.current_price.usd.toLocaleString()}
         </p>
         <div className="flex gap-4 mt-2 text-sm">
@@ -59,47 +61,48 @@ const CoinDetail = () => {
         </div>
       </div>
 
+
       <CoinChart coinId={id} />
 
-      <div className="grid md:grid-cols-3 gap-8">
+
+      <div className="grid md:grid-cols-3 gap-6 mt-10 text-sm text-gray-700">
         <div className="md:col-span-2">
           <CoinStats
             market={market}
             symbol={symbol}
             genesis_date={genesis_date}
-            market_cap_rank={market_cap_rank}
+            rank={market_cap_rank}
             hashing_algorithm={hashing_algorithm}
-            public_interest_score={public_interest_score}
+            interest={public_interest_score}
           />
 
-          <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-3 text-gray-800">About {name}</h2>
+
+          <div className="mt-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">About {name}</h2>
             <div
-              className="text-gray-600 leading-relaxed prose max-w-none"
+              className="text-gray-700 leading-relaxed text-base"
               dangerouslySetInnerHTML={{
                 __html: description.en || "No description available.",
               }}
             />
+            <div className="mt-4 text-sm">
+              <strong>Homepage:</strong>{" "}
+              {links.homepage[0] ? (
+                <a
+                  href={links.homepage[0]}
+                  className="text-blue-600 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {links.homepage[0]}
+                </a>
+              ) : (
+                "N/A"
+              )}
+            </div>
           </div>
 
-          <div className="mt-10">
-            <h2 className="text-xl font-semibold mb-3 text-gray-800">FAQ</h2>
-            <ul className="list-disc ml-5 text-gray-700 space-y-2">
-              <li>What is {name}?</li>
-              <li>How is {name} different from other cryptocurrencies?</li>
-              <li>Where can I buy {name}?</li>
-              <li>What is the total supply of {name}?</li>
-            </ul>
-          </div>
-
-          <p className="mt-6">
-            <strong>Homepage:</strong>{" "}
-            {links.homepage[0] ? (
-              <a href={links.homepage[0]} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
-                {links.homepage[0]}
-              </a>
-            ) : "N/A"}
-          </p>
+          <CoinFAQ coinName={name} />
         </div>
 
         <div>

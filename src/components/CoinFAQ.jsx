@@ -5,7 +5,7 @@ const CoinFAQ = ({ coinName }) => {
         Frequently Asked Questions
       </h2>
 
-      <div className="divide-y divide-gray-200 border rounded-xl bg-white shadow-sm">
+      <div className="rounded-2xl bg-white shadow-md space-y-4 p-4">
         <details className="group p-6 cursor-pointer">
           <summary className="flex justify-between items-center font-medium text-gray-800">
             <span>What is {coinName}?</span>
