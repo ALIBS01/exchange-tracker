@@ -57,20 +57,21 @@ const CryptoList = () => {
 
       <div className="overflow-x-auto mt-4">
         <table className="min-w-full bg-white rounded-2xl shadow">
-          <thead className="bg-gray-100">
+          <thead className="bg-white border-b border-gray-200">
             <tr>
-              <th className="p-4 text-left">#</th>
-              <th className="p-4 text-left">Name</th>
-              <th className="p-4 text-right">Price</th>
-              <th className="p-4 text-right">1h %</th>
-              <th className="p-4 text-right">24h %</th>
-              <th className="p-4 text-right">7d %</th>
-              <th className="p-4 text-right">Market Cap</th>
-              <th className="p-4 text-right">Volume (24h)</th>
-              <th className="p-4 text-right">Circulating Supply</th>
-              <th className="p-4 text-right">Last 7 Days</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-700 tracking-wide">#</th>
+              <th className="p-4 text-left text-sm font-semibold text-gray-700 tracking-wide">Name</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">Price</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">1h %</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">24h %</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">7d %</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">Market Cap</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">Volume (24h)</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">Circulating Supply</th>
+              <th className="p-4 text-right text-sm font-semibold text-gray-700 tracking-wide">Last 7 Days</th>
             </tr>
           </thead>
+
           <tbody>
             {coins.map((coin, index) => (
               <tr
@@ -92,29 +93,26 @@ const CryptoList = () => {
                   ${coin.current_price?.toLocaleString() || "0"}
                 </td>
                 <td
-                  className={`p-4 text-right ${
-                    coin.price_change_percentage_1h_in_currency > 0
+                  className={`p-4 text-right ${coin.price_change_percentage_1h_in_currency > 0
                       ? "text-green-500"
                       : "text-red-500"
-                  }`}
+                    }`}
                 >
                   {coin.price_change_percentage_1h_in_currency?.toFixed(2) ?? "0"}%
                 </td>
                 <td
-                  className={`p-4 text-right ${
-                    coin.price_change_percentage_24h_in_currency > 0
+                  className={`p-4 text-right ${coin.price_change_percentage_24h_in_currency > 0
                       ? "text-green-500"
                       : "text-red-500"
-                  }`}
+                    }`}
                 >
                   {coin.price_change_percentage_24h_in_currency?.toFixed(2) ?? "0"}%
                 </td>
                 <td
-                  className={`p-4 text-right ${
-                    coin.price_change_percentage_7d_in_currency > 0
+                  className={`p-4 text-right ${coin.price_change_percentage_7d_in_currency > 0
                       ? "text-green-500"
                       : "text-red-500"
-                  }`}
+                    }`}
                 >
                   {coin.price_change_percentage_7d_in_currency?.toFixed(2) ?? "0"}%
                 </td>
@@ -159,9 +157,8 @@ const CryptoList = () => {
             <button
               onClick={() => handlePageChange(page - 1)}
               disabled={page === 1}
-              className={`px-3 py-1 rounded hover:bg-gray-200 ${
-                page === 1 ? "text-gray-400 cursor-not-allowed" : ""
-              }`}
+              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === 1 ? "text-gray-400 cursor-not-allowed" : ""
+                }`}
             >
               &lt;
             </button>
@@ -183,9 +180,8 @@ const CryptoList = () => {
                 <li key={p}>
                   <button
                     onClick={() => handlePageChange(p)}
-                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
-                      p === page ? "bg-gray-300" : ""
-                    }`}
+                    className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${p === page ? "bg-gray-300" : ""
+                      }`}
                   >
                     {p}
                   </button>
@@ -197,9 +193,8 @@ const CryptoList = () => {
             <button
               onClick={() => handlePageChange(page + 1)}
               disabled={page === totalPages}
-              className={`px-3 py-1 rounded hover:bg-gray-200 ${
-                page === totalPages ? "text-gray-400 cursor-not-allowed" : ""
-              }`}
+              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === totalPages ? "text-gray-400 cursor-not-allowed" : ""
+                }`}
             >
               &gt;
             </button>
