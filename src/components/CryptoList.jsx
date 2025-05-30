@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useFetchData from "../hooks/useFetchData";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LineChart, Line, ResponsiveContainer, YAxis } from "recharts";
 import { useState } from "react";
 import FilterTabs from "./FilterTabs";
 
@@ -15,10 +15,7 @@ const CryptoList = () => {
 
   const params = {
     vs_currency: "usd",
-    order:
-      filter === "new"
-        ? "market_cap_asc"
-        : "market_cap_desc",
+    order: filter === "new" ? "market_cap_asc" : "market_cap_desc",
     per_page: perPage,
     page,
     sparkline: true,
@@ -26,7 +23,6 @@ const CryptoList = () => {
   };
 
   const { data, loading, error } = useFetchData(endpoint, params);
-
   const coins = Array.isArray(data) ? data : [];
 
   const handlePageChange = (newPage) => {
@@ -94,24 +90,24 @@ const CryptoList = () => {
                 </td>
                 <td
                   className={`p-4 text-right ${coin.price_change_percentage_1h_in_currency > 0
-                      ? "text-green-500"
-                      : "text-red-500"
+                    ? "text-green-500"
+                    : "text-red-500"
                     }`}
                 >
                   {coin.price_change_percentage_1h_in_currency?.toFixed(2) ?? "0"}%
                 </td>
                 <td
                   className={`p-4 text-right ${coin.price_change_percentage_24h_in_currency > 0
-                      ? "text-green-500"
-                      : "text-red-500"
+                    ? "text-green-500"
+                    : "text-red-500"
                     }`}
                 >
                   {coin.price_change_percentage_24h_in_currency?.toFixed(2) ?? "0"}%
                 </td>
                 <td
                   className={`p-4 text-right ${coin.price_change_percentage_7d_in_currency > 0
-                      ? "text-green-500"
-                      : "text-red-500"
+                    ? "text-green-500"
+                    : "text-red-500"
                     }`}
                 >
                   {coin.price_change_percentage_7d_in_currency?.toFixed(2) ?? "0"}%
@@ -134,11 +130,19 @@ const CryptoList = () => {
                           time: idx,
                         })) || []
                       }
+                      margin={{ top: 5, bottom: 5, left: 0, right: 0 }}
                     >
+                      <defs>
+                        <linearGradient id="colorStroke" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
+                          <stop offset="100%" stopColor="#60a5fa" stopOpacity={1} />
+                        </linearGradient>
+                      </defs>
+                      <YAxis domain={['dataMin', 'dataMax']} hide={true} />
                       <Line
                         type="monotone"
                         dataKey="value"
-                        stroke="#3b82f6"
+                        stroke="url(#colorStroke)"
                         dot={false}
                         strokeWidth={2}
                       />
