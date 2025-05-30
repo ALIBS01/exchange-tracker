@@ -26,7 +26,7 @@ const CoinFAQ = ({ coinName }) => {
             key={index}
             className="group py-5 cursor-pointer transition-all duration-300 ease-in-out"
           >
-            <summary className="flex justify-between items-center font-medium text-gray-800 list-none">
+            <summary className="flex justify-between items-center font-medium text-gray-800 list-none text-base">
               <span>{faq.question}</span>
               <svg
                 className="w-5 h-5 text-gray-500 group-open:rotate-180 transform transition-transform"
