@@ -77,7 +77,7 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
         {timeRanges.map((range) => (
           <button
             key={range.value}
-            className={`px-3 py-1 rounded-md text-sm font-medium transition border ${
+            className={`px-3 py-1 rounded-md text-sm font-medium transition border cursor-pointer ${
               days === range.value
                 ? "bg-blue-500 text-white border-blue-500"
                 : "bg-white text-gray-700 border-gray-300"
