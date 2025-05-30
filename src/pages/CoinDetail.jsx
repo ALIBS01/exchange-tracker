@@ -85,21 +85,21 @@ const CoinDetail = () => {
                 __html: description.en || "No description available.",
               }}
             />
-            <div className="mt-4 text-sm">
-              <strong>Homepage:</strong>{" "}
-              {links.homepage[0] ? (
-                <a
-                  href={links.homepage[0]}
-                  className="text-blue-600 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {links.homepage[0]}
-                </a>
-              ) : (
-                "N/A"
-              )}
-            </div>
+            {(links.homepage[0] && links.homepage[0] !== "") && (
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold text-gray-800 mb-3">Resources</h3>
+                <div className="border border-gray-200 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition">
+                  <a
+                    href={links.homepage[0]}
+                    className="text-blue-600 hover:underline break-words"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {links.homepage[0]}
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
 
           <CoinFAQ coinName={name} />
