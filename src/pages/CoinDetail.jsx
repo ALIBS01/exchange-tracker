@@ -4,6 +4,7 @@ import CoinChart from "../components/CoinChart";
 import CoinConverter from "../components/CoinConverter";
 import CoinStats from "../components/CoinStats";
 import CoinFAQ from "../components/CoinFAQ";
+import SimilarCoins from "../components/SimilarCoins";
 
 const CoinDetail = () => {
   const { id } = useParams();
@@ -31,6 +32,7 @@ const CoinDetail = () => {
     hashing_algorithm,
     links,
     public_interest_score,
+    categories,
   } = data;
 
   return (
@@ -64,7 +66,6 @@ const CoinDetail = () => {
 
       <CoinChart coinId={id} />
 
-
       <div className="grid md:grid-cols-3 gap-6 mt-10 text-sm text-gray-700">
         <div className="md:col-span-2">
           <CoinStats
@@ -75,7 +76,6 @@ const CoinDetail = () => {
             hashing_algorithm={hashing_algorithm}
             interest={public_interest_score}
           />
-
 
           <div className="mt-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">About {name}</h2>
@@ -109,6 +109,11 @@ const CoinDetail = () => {
           <CoinConverter coinSymbol={symbol} coinPrice={market.current_price.usd} />
         </div>
       </div>
+
+
+      {categories && categories.length > 0 && (
+        <SimilarCoins category={categories[0]} currentCoinId={id} />
+      )}
     </div>
   );
 };

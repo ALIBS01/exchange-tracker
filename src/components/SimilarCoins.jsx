@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const SimilarCoins = ({ category, currentCoinId }) => {
+const SimilarCoins = ({ currentCoinId }) => {
   const [similar, setSimilar] = useState([]);
   const navigate = useNavigate();
 
@@ -14,15 +14,14 @@ const SimilarCoins = ({ category, currentCoinId }) => {
           {
             params: {
               vs_currency: "usd",
-              category: category,
               order: "market_cap_desc",
-              per_page: 6,
+              per_page: 10,
               page: 1,
               sparkline: false,
             },
           }
         );
-        const filtered = res.data.filter((coin) => coin.id !== currentCoinId);
+        const filtered = res.data.filter((coin) => coin.id !== currentCoinId).slice(0, 6);
         setSimilar(filtered);
       } catch (err) {
         console.error("Failed to fetch similar coins", err);
@@ -30,7 +29,7 @@ const SimilarCoins = ({ category, currentCoinId }) => {
     };
 
     fetchSimilar();
-  }, [category, currentCoinId]);
+  }, [currentCoinId]);
 
   if (!similar.length) return null;
 
