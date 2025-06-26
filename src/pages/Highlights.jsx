@@ -17,9 +17,10 @@ const Highlights = () => {
         <TopLosers />
       </div>
 
-      <NewlyAddedCoins />
-
-      <HighestVolumeCoins />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <NewlyAddedCoins />
+        <HighestVolumeCoins />
+      </div>
 
       <PriceChangeATH />
     </div>
