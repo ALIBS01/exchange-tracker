@@ -22,6 +22,7 @@ import { SettingsProvider } from "./context/SettingsContext";
 import HighVolume from "./pages/HighVolume";
 import NewCoins from "./pages/NewCoins";
 import AthLosses from "./pages/AthLosses";
+import Trending from "./pages/Trending";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/high-volume" element={<HighVolume />} />
             <Route path="/new-coins" element={<NewCoins />} />
             <Route path="/ath-losses" element={<AthLosses />} />
+            <Route path="/trending" element={<Trending />} />
 
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/categories" element={<Categories />} />
