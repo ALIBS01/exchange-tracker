@@ -20,6 +20,7 @@ import NFTGlobalChart from "./pages/NFTGlobalChart";
 import CommunityBlog from "./pages/CommunityBlog";
 import { SettingsProvider } from "./context/SettingsContext";
 import HighVolume from "./pages/HighVolume";
+import NewCoins from "./pages/NewCoins";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/coin/:id" element={<CoinDetail />} />
             <Route path="/high-volume" element={<HighVolume />} />
+            <Route path="/new-coins" element={<NewCoins />} />
 
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/categories" element={<Categories />} />
