@@ -24,7 +24,7 @@ const Navbar = () => {
     {
       title: "Cryptocurrencies",
       items: [
-        { label: "By Market Cap", path: "/ranking" },
+        { label: "Ranking", path: "/ranking" },
         { label: "Categories", path: "/categories" },
         { label: "Chains", path: "/chains" },
         { divider: true },
