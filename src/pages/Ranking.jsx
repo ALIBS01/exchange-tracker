@@ -1,5 +1,7 @@
+import Home from "./Home";
+
 const Ranking = () => {
-  return <div className="p-4">Ranking Page</div>;
+  return <Home />;
 };
 
 export default Ranking;
