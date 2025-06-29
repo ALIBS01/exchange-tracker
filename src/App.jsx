@@ -23,6 +23,7 @@ import HighVolume from "./pages/HighVolume";
 import NewCoins from "./pages/NewCoins";
 import AthLosses from "./pages/AthLosses";
 import Trending from "./pages/Trending";
+import CategoryDetail from "./pages/CategoryDetail";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/new-coins" element={<NewCoins />} />
             <Route path="/ath-losses" element={<AthLosses />} />
             <Route path="/trending" element={<Trending />} />
+            <Route path="/category/:id" element={<CategoryDetail />} />
 
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/categories" element={<Categories />} />
