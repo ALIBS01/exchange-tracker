@@ -1,10 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useFetchData from "../hooks/useFetchData";
 import { useState } from "react";
 import { LineChart, Line, ResponsiveContainer, YAxis } from "recharts";
 
 const CategoryDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const perPage = 50;
 
@@ -12,8 +13,8 @@ const CategoryDetail = () => {
     vs_currency: "usd",
     category: id,
     order: "market_cap_desc",
-    per_page: perPage,
-    page,
+    per_page: 250,
+    page: 1,
     sparkline: true,
     price_change_percentage: "1h,24h,7d",
   };
@@ -22,6 +23,10 @@ const CategoryDetail = () => {
 
   if (loading) return <p className="p-4">Loading coins for {id}...</p>;
   if (error) return <p className="p-4 text-red-500">Error loading data.</p>;
+
+
+  const totalPages = Math.ceil((data?.length || 0) / perPage);
+  const pagedData = data?.slice((page - 1) * perPage, page * perPage) || [];
 
   return (
     <section className="p-4 w-full">
@@ -43,8 +48,12 @@ const CategoryDetail = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((coin, index) => (
-              <tr key={coin.id} className="border-t border-gray-100 hover:bg-gray-50 cursor-pointer">
+            {pagedData?.map((coin, index) => (
+              <tr
+                key={coin.id}
+                className="border-t border-gray-100 hover:bg-gray-50 cursor-pointer"
+                onClick={() => navigate(`/coin/${coin.id}`)}
+              >
                 <td className="p-4">{(page - 1) * perPage + index + 1}</td>
                 <td className="p-4 flex items-center gap-2">
                   <img src={coin.image} alt={coin.name} className="w-6 h-6" />
@@ -85,39 +94,59 @@ const CategoryDetail = () => {
         </table>
       </div>
 
-      <div className="flex justify-center mt-8">
-        <ul className="flex gap-2 text-black font-semibold items-center">
-          <li>
-            <button
-              onClick={() => setPage((prev) => Math.max(1, prev - 1))}
-              disabled={page === 1}
-              className={`px-3 py-1 rounded hover:bg-gray-200 ${page === 1 ? "text-gray-400 cursor-not-allowed" : ""}`}
-            >
-              &lt;
-            </button>
-          </li>
-
-          {[...Array(5)].map((_, i) => (
-            <li key={i}>
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8">
+          <ul className="flex gap-2 text-black font-semibold items-center">
+            <li>
               <button
-                onClick={() => setPage(i + 1)}
-                className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${page === i + 1 ? "bg-gray-300" : ""}`}
+                onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+                disabled={page === 1}
+                className={`px-3 py-1 rounded hover:bg-gray-200 ${
+                  page === 1 ? "text-gray-400 cursor-not-allowed" : ""
+                }`}
               >
-                {i + 1}
+                &lt;
               </button>
             </li>
-          ))}
 
-          <li>
-            <button
-              onClick={() => setPage((prev) => prev + 1)}
-              className="px-3 py-1 rounded hover:bg-gray-200"
-            >
-              &gt;
-            </button>
-          </li>
-        </ul>
-      </div>
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((p) => p <= 3 || p === totalPages || Math.abs(p - page) <= 1)
+              .reduce((acc, p, i, arr) => {
+                if (i > 0 && p - arr[i - 1] > 1) acc.push("...");
+                acc.push(p);
+                return acc;
+              }, [])
+              .map((p, idx) =>
+                p === "..." ? (
+                  <li key={idx} className="px-3 py-1 text-gray-400 select-none">...</li>
+                ) : (
+                  <li key={p}>
+                    <button
+                      onClick={() => setPage(p)}
+                      className={`px-3 py-1 rounded cursor-pointer hover:bg-gray-200 ${
+                        p === page ? "bg-gray-300" : ""
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  </li>
+                )
+              )}
+
+            <li>
+              <button
+                onClick={() => setPage((prev) => Math.min(totalPages, prev + 1))}
+                disabled={page === totalPages}
+                className={`px-3 py-1 rounded hover:bg-gray-200 ${
+                  page === totalPages ? "text-gray-400 cursor-not-allowed" : ""
+                }`}
+              >
+                &gt;
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
     </section>
   );
 };
