@@ -32,7 +32,7 @@ const Navbar = () => {
         { label: "New Cryptocurrencies", path: "/new-cryptocurrencies" },
         { label: "Gainers & Losers", path: "/gainers-losers" },
         { divider: true },
-        { label: "Compare Coins and NFT", path: "/compare" },
+        { label: "Compare Coins", path: "/compare" },
         { label: "Converter", path: "/converter" },
         { label: "Global Chart", path: "/global-chart" },
       ],
