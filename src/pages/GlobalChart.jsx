@@ -96,9 +96,9 @@ function GlobalChart() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-800 p-4 sm:p-6 lg:p-8 font-sans">
-      <div className="max-w-screen-2xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+    <div className="min-h-screen bg-white text-gray-800 p-4 sm:p-6 lg:p-8 font-sans">
+      <div className="mx-auto">
+        <h1 className="text-2xl font-bold mb-8 text-gray-800">
           Global Crypto Market Overview
         </h1>
 
