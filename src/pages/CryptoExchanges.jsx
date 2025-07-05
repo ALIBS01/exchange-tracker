@@ -1,4 +1,5 @@
 import useFetchData from "../hooks/useFetchData";
+import { Link } from "react-router-dom";
 
 const CryptoExchanges = () => {
   const { data: exchanges, loading, error } = useFetchData("/exchanges?per_page=100&page=1");
@@ -7,8 +8,11 @@ const CryptoExchanges = () => {
   if (error) return <div className="text-center text-red-500 py-10">Error fetching exchanges data.</div>;
 
   return (
-    <div className="w-full px-4 py-10">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Crypto Exchanges</h1>
+    <div className="w-full px-4 py-10 dark:bg-gray-900">
+      <h1 className="text-3xl font-bold mb-2 text-gray-800 dark:text-gray-200">
+        Top Crypto Exchanges Ranked by Trust Score
+      </h1>
+      <p className="mb-6 dark:text-gray-400">CoinMeta ranks and scores exchanges based on traffic, trust score, trading volumes.</p>
       <div className="overflow-x-auto rounded-xl shadow">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-100 dark:bg-gray-800">
@@ -27,14 +31,22 @@ const CryptoExchanges = () => {
                 </td>
                 <td className="px-6 py-4 flex items-center gap-3 text-gray-800 dark:text-gray-200">
                   <img src={exchange.image} alt={exchange.name} className="w-8 h-8 rounded-full" />
-                  <span>{exchange.name}</span>
+                  <Link
+                    to={`/exchange/${exchange.id}`}
+                    className="hover:underline text-blue-600 dark:text-blue-400"
+                  >
+                    {exchange.name}
+                  </Link>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <span className={`inline-block px-3 py-1 rounded-full 
-                    ${exchange.trust_score >= 8 ? 'bg-green-100 text-green-700 dark:bg-green-200 dark:text-green-800' :
-                      exchange.trust_score >= 5 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-200 dark:text-yellow-800' :
-                      'bg-red-100 text-red-700 dark:bg-red-200 dark:text-red-800'}`}>
-                    {exchange.trust_score}
+                  <span
+                    className={`inline-block px-3 py-1 rounded-md font-semibold
+                      ${exchange.trust_score >= 8 ? 'bg-green-900 text-green-400' :
+                        exchange.trust_score >= 5 ? 'bg-yellow-900 text-yellow-400' :
+                        'bg-red-900 text-red-400'}
+                    `}
+                  >
+                    {exchange.trust_score}/10
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right text-gray-800 dark:text-gray-200">
