@@ -33,8 +33,8 @@ const GainersLosers = () => {
     .slice(0, 30);
 
   return (
-    <section className="p-4 w-full">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+    <section className="px-4 py-10 w-full dark:bg-gray-900">
+      <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
         {activeTab === "gainers" ? "Top Gainers" : "Top Losers"} (24h)
       </h2>
 
@@ -60,8 +60,8 @@ const GainersLosers = () => {
         <p className="text-red-500">Failed to load data.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow">
-            <thead className="bg-gray-50 dark:bg-gray-700 text-sm text-gray-600 dark:text-gray-300">
+          <table className="min-w-full bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow">
+            <thead className="bg-gray-50 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-300">
               <tr>
                 <th className="p-4 text-left">Name</th>
                 <th className="p-4 text-right">Price</th>

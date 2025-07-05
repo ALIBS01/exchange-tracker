@@ -25,8 +25,8 @@ const NewCoins = () => {
   };
 
   return (
-    <section className="p-4 w-full">
-      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+    <section className="px-4 py-10 w-full dark:bg-gray-900">
+      <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
         Newly Added Coins
       </h2>
 
@@ -37,8 +37,8 @@ const NewCoins = () => {
       ) : (
         <>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white dark:bg-gray-800 rounded-2xl shadow">
-              <thead className="bg-white dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+            <table className="min-w-full bg-white dark:bg-gray-900 rounded-2xl shadow">
+              <thead className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600">
                 <tr>
                   <th className="p-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">#</th>
                   <th className="p-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Coin</th>
