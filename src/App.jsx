@@ -25,6 +25,7 @@ import AthLosses from "./pages/AthLosses";
 import Trending from "./pages/Trending";
 import CategoryDetail from "./pages/CategoryDetail";
 import ExchangeDetail from "./pages/ExchangeDetail";
+import DerivativeDetail from "./pages/DerivativeDetail";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="/trending" element={<Trending />} />
             <Route path="/category/:id" element={<CategoryDetail />} />
             <Route path="/exchange/:id" element={<ExchangeDetail />} />
+            <Route path="/derivatives/:id" element={<DerivativeDetail />} />
 
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/categories" element={<Categories />} />
