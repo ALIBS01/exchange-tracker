@@ -12,11 +12,7 @@ import CompareCoinsNFT from "./pages/CompareCoinsNFT";
 import Converter from "./pages/Converter";
 import GlobalChart from "./pages/GlobalChart";
 import CryptoExchanges from "./pages/CryptoExchanges";
-import DecentralizedExchanges from "./pages/DecentralizedExchanges";
 import Derivatives from "./pages/Derivatives";
-import NFTFloorPrice from "./pages/NFTFloorPrice";
-import NFTRelatedCoins from "./pages/NFTRelatedCoins";
-import NFTGlobalChart from "./pages/NFTGlobalChart";
 import CommunityBlog from "./pages/CommunityBlog";
 import { SettingsProvider } from "./context/SettingsContext";
 import HighVolume from "./pages/HighVolume";
@@ -55,12 +51,8 @@ function App() {
             <Route path="/global-chart" element={<GlobalChart />} />
 
             <Route path="/exchanges" element={<CryptoExchanges />} />
-            <Route path="/exchanges/decentralized" element={<DecentralizedExchanges />} />
             <Route path="/exchanges/derivatives" element={<Derivatives />} />
 
-            <Route path="/nft/floor-price" element={<NFTFloorPrice />} />
-            <Route path="/nft/related-coins" element={<NFTRelatedCoins />} />
-            <Route path="/nft/global-chart" element={<NFTGlobalChart />} />
 
             <Route path="/community/blog" element={<CommunityBlog />} />
           </Routes>

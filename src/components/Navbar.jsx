@@ -41,16 +41,7 @@ const Navbar = () => {
       title: "Exchanges",
       items: [
         { label: "Crypto Exchanges", path: "/exchanges" },
-        { label: "Decentralized Exchanges", path: "/exchanges/decentralized" },
         { label: "Derivatives", path: "/exchanges/derivatives" },
-      ],
-    },
-    {
-      title: "NFT",
-      items: [
-        { label: "NFT Floor Price", path: "/nft/floor-price" },
-        { label: "NFT Related Coins", path: "/nft/related-coins" },
-        { label: "NFT Global Chart", path: "/nft/global-chart" },
       ],
     },
     {
@@ -63,7 +54,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md px-6 py-4 flex justify-between items-center relative z-50">
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-6">
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">
           <Link to="/">CoinMeta</Link>
         </h1>
@@ -76,7 +67,7 @@ const Navbar = () => {
     onMouseEnter={() => handleMouseEnter(section.title)}
     onMouseLeave={handleMouseLeave}
   >
-    <button className="text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white px-2 py-1">
+    <button className="text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white px-2 py-1 cursor-pointer">
       {section.title}
     </button>
 
