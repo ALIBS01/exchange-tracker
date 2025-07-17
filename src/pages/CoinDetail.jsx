@@ -48,25 +48,25 @@ const CoinDetail = () => {
 
       <div className="mb-6">
         <p className="text-3xl font-bold text-gray-800">
-          ${market.current_price.usd.toLocaleString()}
+          ${market.current_price.usd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 8 })}
         </p>
-        <div className="flex gap-4 mt-2 text-sm">
-          <span className={`font-semibold ${market.price_change_percentage_1h_in_currency.usd > 0 ? "text-green-500" : "text-red-500"}`}>
+        <div className="flex gap-4 mt-2 text-sm font-semibold">
+          <span className={`${market.price_change_percentage_1h_in_currency.usd > 0 ? "text-green-500" : "text-red-500"}`}>
             1h: {market.price_change_percentage_1h_in_currency.usd?.toFixed(2)}%
           </span>
-          <span className={`font-semibold ${market.price_change_percentage_24h_in_currency.usd > 0 ? "text-green-500" : "text-red-500"}`}>
+          <span className={`${market.price_change_percentage_24h_in_currency.usd > 0 ? "text-green-500" : "text-red-500"}`}>
             24h: {market.price_change_percentage_24h_in_currency.usd?.toFixed(2)}%
           </span>
-          <span className={`font-semibold ${market.price_change_percentage_7d_in_currency.usd > 0 ? "text-green-500" : "text-red-500"}`}>
+          <span className={`${market.price_change_percentage_7d_in_currency.usd > 0 ? "text-green-500" : "text-red-500"}`}>
             7d: {market.price_change_percentage_7d_in_currency.usd?.toFixed(2)}%
           </span>
         </div>
       </div>
 
-
       <CoinChart coinId={id} />
 
       <div className="grid md:grid-cols-3 gap-6 mt-10 text-sm text-gray-700">
+
         <div className="md:col-span-2">
           <CoinStats
             market={market}
@@ -109,7 +109,6 @@ const CoinDetail = () => {
           <CoinConverter coinSymbol={symbol} coinPrice={market.current_price.usd} />
         </div>
       </div>
-
 
       {categories && categories.length > 0 && (
         <SimilarCoins category={categories[0]} currentCoinId={id} />
