@@ -35,7 +35,7 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
 
         const formatted = res.data.prices.map(([timestamp, price]) => ({
           date: new Date(timestamp).toLocaleDateString(),
-          price: parseFloat(price.toFixed(2)),
+          price: price,
         }));
 
         setChartData(formatted);
@@ -57,13 +57,18 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
   ];
 
   const formatYAxisTick = (value) => {
-    if (value >= 1000) return `${(value / 1000).toFixed(2)}k`;
-    return value;
+    if (value >= 1) return value.toFixed(2);
+    if (value >= 0.0001) return value.toFixed(6);
+    return value.toFixed(8);
   };
 
   const formatTooltipValue = (value) => {
     const symbol = currency === "usd" ? "$" : currency.toUpperCase() + " ";
-    return [`Price: ${symbol}${value.toLocaleString()}`];
+    let formatted;
+    if (value >= 1) formatted = value.toFixed(2);
+    else if (value >= 0.0001) formatted = value.toFixed(6);
+    else formatted = value.toFixed(8);
+    return [`${symbol}${formatted}`];
   };
 
   return (
