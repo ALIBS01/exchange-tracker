@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
@@ -77,7 +77,8 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
     const symbol = currency === "usd" ? "$" : currency.toUpperCase() + " ";
     const price = data.price;
 
-    const formattedPrice = symbol +
+    const formattedPrice =
+      symbol +
       price.toLocaleString(undefined, {
         minimumFractionDigits: price >= 1 ? 2 : price >= 0.0001 ? 6 : 8,
         maximumFractionDigits: price >= 1 ? 2 : price >= 0.0001 ? 6 : 8,
@@ -118,7 +119,13 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
         <p>Loading chart...</p>
       ) : (
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={chartData}>
+          <AreaChart data={chartData}>
+            <defs>
+              <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.4} />
+                <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <XAxis dataKey="date" hide={chartData.length > 30} />
             <YAxis
               domain={["auto", "auto"]}
@@ -127,14 +134,14 @@ const CoinChart = ({ coinId, currency = "usd" }) => {
             />
             <Tooltip content={<TooltipContent />} />
             <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-            <Line
+            <Area
               type="monotone"
               dataKey="price"
               stroke="#3b82f6"
               strokeWidth={2}
-              dot={false}
+              fill="url(#priceGradient)"
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       )}
     </div>
