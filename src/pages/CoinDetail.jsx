@@ -5,6 +5,26 @@ import CoinConverter from "../components/CoinConverter";
 import CoinStats from "../components/CoinStats";
 import CoinFAQ from "../components/CoinFAQ";
 import SimilarCoins from "../components/SimilarCoins";
+import { Globe, FileText, Code, ExternalLink } from "lucide-react";
+
+const ResourceBadge = ({ href, text, icon }) => {
+  if (!href) return null;
+
+  const displayText = text || new URL(href).hostname.replace('www.', '');
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-800 transition-colors"
+    >
+      {icon}
+      <span>{displayText}</span>
+    </a>
+  );
+};
+
 
 const CoinDetail = () => {
   const { id } = useParams();
@@ -13,8 +33,8 @@ const CoinDetail = () => {
     localization: false,
     tickers: false,
     market_data: true,
-    community_data: false,
-    developer_data: false,
+    community_data: true,
+    developer_data: true,
     sparkline: false,
   });
 
@@ -35,11 +55,20 @@ const CoinDetail = () => {
     categories,
   } = data;
 
+  const websiteLink = links?.homepage?.[0] || null;
+  const whitepaperLink = links?.whitepaper || null;
+  const redditLink = links?.subreddit_url || null;
+  const githubLink = links?.repos_url?.github?.[0] || null;
+
+  const explorerLinks = links?.blockchain_site?.filter(link => link).slice(0, 3) || [];
+  
+  const hasResources = websiteLink || whitepaperLink || redditLink || githubLink || explorerLinks.length > 0;
+
   return (
     <div className="mt-10 px-6 py-10 max-w-7xl mx-auto rounded-2xl">
 
       <div className="flex items-center gap-4 mb-6">
-        <img src={image.large} alt={name} className="w-12 h-12" />
+        <img src={image?.large} alt={name} className="w-12 h-12" />
         <div>
           <h1 className="text-2xl font-bold">{name}</h1>
           <p className="uppercase text-gray-500">{symbol}</p>
@@ -80,31 +109,55 @@ const CoinDetail = () => {
           <div className="mt-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">About {name}</h2>
             <div
-              className="text-gray-700 leading-relaxed text-base"
+              className="text-gray-700 leading-relaxed text-base prose"
               dangerouslySetInnerHTML={{
-                __html: description.en || "No description available.",
+                __html: description?.en || "No description available.",
               }}
             />
-            {(links.homepage[0] && links.homepage[0] !== "") && (
-              <div className="mt-8">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">Resources</h3>
-                <div className="border border-gray-200 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition">
-                  <a
-                    href={links.homepage[0]}
-                    className="text-blue-600 hover:underline break-words"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {links.homepage[0]}
-                  </a>
-                </div>
-              </div>
-            )}
           </div>
+          
+          {hasResources && (
+            <div className="mt-12">
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">Resources</h3>
+              <div className="border border-gray-200 rounded-xl overflow-hidden">
+                
+                {(websiteLink || whitepaperLink) && (
+                  <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                    <span className="font-medium text-gray-600">Website</span>
+                    <div className="flex flex-wrap gap-2">
+                      <ResourceBadge href={websiteLink} text="Website" icon={<Globe size={16} />} />
+                      <ResourceBadge href={whitepaperLink} text="Whitepaper" icon={<FileText size={16} />} />
+                    </div>
+                  </div>
+                )}
+                
+                {(redditLink || githubLink) && (
+                  <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                    <span className="font-medium text-gray-600">Socials</span>
+                    <div className="flex flex-wrap gap-2">
+                       <ResourceBadge href={redditLink} text="Reddit" icon={<Code size={16} />} />
+                       <ResourceBadge href={githubLink} text="GitHub" icon={<Code size={16} />} />
+                    </div>
+                  </div>
+                )}
+
+                {explorerLinks.length > 0 && (
+                   <div className="flex justify-between items-center p-4">
+                    <span className="font-medium text-gray-600">Explorers</span>
+                    <div className="flex flex-wrap gap-2">
+                      {explorerLinks.map((link) => (
+                        <ResourceBadge key={link} href={link} icon={<ExternalLink size={16} />} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+              </div>
+            </div>
+          )}
 
           <CoinFAQ coinName={name} />
         </div>
-
         <div>
           <CoinConverter coinSymbol={symbol} coinPrice={market.current_price.usd} />
         </div>
