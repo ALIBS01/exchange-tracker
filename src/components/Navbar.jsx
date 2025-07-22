@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import { FiSettings } from "react-icons/fi";
 import Search from "./Search";
-import SettingsPanel from "./SettingsPanel";
 
 const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
@@ -84,7 +83,7 @@ const Navbar = () => {
             <Link
               to={item.path}
               key={index}
-              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
             >
               {item.label}
             </Link>
@@ -108,11 +107,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {showSettings && (
-        <div className="absolute top-16 right-4 z-50">
-          <SettingsPanel />
-        </div>
-      )}
+
     </nav>
   );
 };
