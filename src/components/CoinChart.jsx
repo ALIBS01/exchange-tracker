@@ -12,7 +12,7 @@ import {
 
 const CoinChart = ({ coinId, currency = "usd" }) => {
   const [chartData, setChartData] = useState([]);
-  const [days, setDays] = useState(7);
+  const [days, setDays] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const API_KEY = import.meta.env.VITE_API_KEY;
