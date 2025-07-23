@@ -25,7 +25,6 @@ const Navbar = () => {
       items: [
         { label: "Ranking", path: "/ranking" },
         { label: "Categories", path: "/categories" },
-        { label: "Chains", path: "/chains" },
         { divider: true },
         { label: "Highlights", path: "/highlights" },
         { label: "New Cryptocurrencies", path: "/new-cryptocurrencies" },

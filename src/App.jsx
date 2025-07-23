@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import CoinDetail from "./pages/CoinDetail";
 import Ranking from "./pages/Ranking";
 import Categories from "./pages/Categories";
-import Chains from "./pages/Chains";
 import Highlights from "./pages/Highlights";
 import NewCryptocurrencies from "./pages/NewCryptocurrencies";
 import GainersLosers from "./pages/GainersLosers";
@@ -42,7 +41,6 @@ function App() {
 
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/categories" element={<Categories />} />
-            <Route path="/chains" element={<Chains />} />
             <Route path="/highlights" element={<Highlights />} />
             <Route path="/new-cryptocurrencies" element={<NewCryptocurrencies />} />
             <Route path="/gainers-losers" element={<GainersLosers />} />
@@ -52,7 +50,6 @@ function App() {
 
             <Route path="/exchanges" element={<CryptoExchanges />} />
             <Route path="/exchanges/derivatives" element={<Derivatives />} />
-
 
             <Route path="/community/blog" element={<CommunityBlog />} />
           </Routes>
