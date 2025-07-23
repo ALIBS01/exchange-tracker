@@ -65,9 +65,8 @@ const CustomDropdown = ({
       <div className="relative">
         <div
           onClick={handleToggle}
-          className={`w-full px-4 h-[50px] bg-gray-50 border border-gray-300 rounded-lg cursor-pointer flex items-center justify-between ${
-            isOpen ? "ring-2 ring-green-500" : ""
-          }`}
+          className={`w-full px-4 h-[50px] bg-gray-50 border border-gray-300 rounded-lg cursor-pointer flex items-center justify-between ${isOpen ? "ring-2 ring-green-500" : ""
+            }`}
         >
           {!isOpen && selectedOption ? (
             displayRenderer(selectedOption)
@@ -83,9 +82,8 @@ const CustomDropdown = ({
             />
           )}
           <svg
-            className={`w-5 h-5 text-gray-400 transition-transform ${
-              isOpen ? "transform rotate-180" : ""
-            }`}
+            className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? "transform rotate-180" : ""
+              }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -364,8 +362,14 @@ const Converter = () => {
               </span>{" "}
               ={" "}
               <span className="font-bold text-blue-600">
-                {conversionLoading ? "Loading..." : convertedAmount}{" "}
-                {selectedCurrency.name}
+                {conversionLoading
+                  ? "Loading..."
+                  : new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: selectedCurrency.id,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 6,
+                  }).format(parseFloat(convertedAmount))}{" "}
               </span>
             </p>
             <p className="text-sm text-gray-500 mt-1">
