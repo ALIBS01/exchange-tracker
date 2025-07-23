@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell
 } from 'recharts';
 import useFetchData from "../hooks/useFetchData";
+import { useNavigate } from 'react-router-dom';
 
 function GlobalChart() {
   const [days, setDays] = useState(30);
+  const navigate = useNavigate();
 
   const { data: btcChartData, loading: btcChartLoading, error: btcChartError } = useFetchData(
     `coins/bitcoin/market_chart`, { days: days, vs_currency: 'usd' }
@@ -42,12 +44,12 @@ function GlobalChart() {
 
   const dominancePieData = globalMetricsData?.data.market_cap_percentage
     ? Object.entries(globalMetricsData.data.market_cap_percentage)
-        .filter(([, percentage]) => percentage > 0.5)
-        .sort(([, a], [, b]) => b - a)
-        .map(([currency, percentage]) => ({
-          name: currency.toUpperCase(),
-          value: percentage,
-        }))
+      .filter(([, percentage]) => percentage > 0.5)
+      .sort(([, a], [, b]) => b - a)
+      .map(([currency, percentage]) => ({
+        name: currency.toUpperCase(),
+        value: percentage,
+      }))
     : [];
 
   const PIE_COLORS = ['#F7931A', '#8CC640', '#627EEA', '#E2B24A', '#AC8FE4', '#5BC0DE', '#9378C6', '#2EC5BE'];
@@ -95,12 +97,18 @@ function GlobalChart() {
     return null;
   };
 
+  const handleRowClick = (coinId) => {
+    navigate(`/coin/${coinId}`);
+  };
+
   return (
     <div className="min-h-screen bg-white text-gray-800 p-4 sm:p-6 lg:p-8 font-sans">
       <div className="mx-auto">
         <h1 className="text-2xl font-bold mb-8 text-gray-800">
           Global Crypto Market Overview
         </h1>
+
+        <p className="mb-6 dark:text-gray-400">Explore the current state and recent trends of the global cryptocurrency market. This overview features key metrics like total market capitalization, 24-hour trading volumes, and the dominance of major cryptocurrencies like Bitcoin and Ethereum, updated regularly to reflect the latest market movements.</p>
 
         {isLoading && (
           <div className="flex flex-col justify-center items-center h-64 text-blue-500">
@@ -143,7 +151,7 @@ function GlobalChart() {
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">BTC & ETH Market Capitalization</h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={processedCombinedChartData}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <XAxis dataKey="date" stroke="#A0AEC0" tick={{ fill: '#4A5568', fontSize: 11 }} />
                     <YAxis type="number" domain={['auto', 'auto']} tickFormatter={formatCurrency} stroke="#A0AEC0" tick={{ fill: '#4A5568', fontSize: 11 }} />
                     <Tooltip content={<CustomLineTooltip />} />
@@ -181,7 +189,7 @@ function GlobalChart() {
                 <h2 className="text-xl font-semibold mb-4 text-gray-800">BTC & ETH 24h Trading Volume</h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={processedCombinedChartData}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <XAxis dataKey="date" stroke="#A0AEC0" tick={{ fill: '#4A5568', fontSize: 11 }} />
                     <YAxis type="number" domain={['auto', 'auto']} tickFormatter={formatCurrency} stroke="#A0AEC0" tick={{ fill: '#4A5568', fontSize: 11 }} />
                     <Tooltip content={<CustomLineTooltip />} />
@@ -225,7 +233,6 @@ function GlobalChart() {
               </div>
             </div>
 
-
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <h2 className="text-xl font-semibold mb-6 text-gray-800">Top 10 Cryptocurrencies by Market Cap</h2>
               {topCoinsData && (
@@ -255,7 +262,11 @@ function GlobalChart() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {topCoinsData.map((coin) => (
-                        <tr key={coin.id} className="hover:bg-gray-50 transition-colors duration-150">
+                        <tr
+                          key={coin.id}
+                          className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                          onClick={() => handleRowClick(coin.id)}
+                        >
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {coin.market_cap_rank}
                           </td>
